@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14100c">
+<title>Kelas Kita</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#050505; --glow:#2a1d12; --ink:#f4f1ec; --soft:#a6a29b; --tile:rgba(255,255,255,.09);
+  --glass:rgba(34,34,38,.72); --edge:rgba(255,255,255,.2); --accent:#f08a2d; --chip:rgba(255,255,255,.1);
+  color-scheme:dark; box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){--bg:#fbf8f4;--glow:#ffe6cc;--ink:#171411;--soft:#6e675d;--tile:rgba(0,0,0,.06);--glass:rgba(255,255,255,.78);--edge:rgba(0,0,0,.14);--chip:rgba(0,0,0,.07);color-scheme:light}
+}
+:root[data-theme="light"]{--bg:#fbf8f4;--glow:#ffe6cc;--ink:#171411;--soft:#6e675d;--tile:rgba(0,0,0,.06);--glass:rgba(255,255,255,.78);--edge:rgba(0,0,0,.14);--chip:rgba(0,0,0,.07);color-scheme:light}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%}
+body{margin:0;min-height:100%;color:var(--ink);background:var(--bg) linear-gradient(180deg,var(--glow),var(--bg) 380px) no-repeat;font-family:Figtree,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.4}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:10px}
+header{display:flex;align-items:center;gap:8px;padding:16px 18px 4px;font-weight:500;min-height:48px}
+header a{font-size:1.4rem;line-height:1;padding:4px 8px 4px 0}
+main{padding:0 18px 190px;max-width:640px;margin:0 auto}
+.view{display:none}.view.on{display:block}
+h1{font-size:1.75rem;font-weight:700;margin:10px 0 14px}
+h2{font-size:1.3rem;font-weight:700;margin:26px 0 12px}
+.sub{color:var(--soft);font-size:.85rem}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tile{display:flex;align-items:center;gap:12px;background:var(--tile);border-radius:12px;overflow:hidden;font-weight:600;font-size:.95rem;min-height:56px;padding-right:10px}
+.cv{display:grid;place-items:center;flex:none;font-weight:800;color:#fff;overflow:hidden;text-shadow:0 1px 4px rgba(0,0,0,.35)}
+.cv img{width:100%;height:100%;object-fit:cover}
+.tile .cv{width:56px;height:56px}
+svg.i{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.streak{margin-top:10px;background:var(--tile);border-radius:14px;padding:14px 16px;display:flex;gap:14px;align-items:center}
+.ring{width:44px;height:44px;flex:none;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:.85rem;background:conic-gradient(var(--accent) var(--p,0%),var(--chip) 0)}
+.ring span{width:34px;height:34px;border-radius:50%;background:var(--bg);display:grid;place-items:center}
+.streak b{display:block;font-size:1rem}
+.bar{height:6px;border-radius:9px;background:var(--chip);margin-top:8px;overflow:hidden}.bar i{display:block;height:100%;background:var(--accent);width:var(--p,0%)}
+.chips{display:flex;gap:8px;overflow-x:auto;margin:16px -18px 0;padding:0 18px;scrollbar-width:none}
+.chips::-webkit-scrollbar,.rail::-webkit-scrollbar{display:none}
+.chip{flex:none;font:inherit;font-size:.85rem;color:var(--ink);background:var(--chip);border:0;border-radius:999px;padding:9px 16px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);font-weight:700}
+.rail{display:flex;gap:14px;overflow-x:auto;margin:0 -18px;padding:0 18px;scroll-padding-left:18px;scroll-snap-type:x mandatory;scrollbar-width:none}
+.card{flex:0 0 36%;max-width:170px;scroll-snap-align:start;min-width:0}
+.card .cv{width:100%;aspect-ratio:1;border-radius:10px;font-size:1.8rem;margin-bottom:8px}
+.card b,.card small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card b{font-size:.95rem;font-weight:600}.card small{color:var(--soft);font-size:.8rem}
+.card.on .cv{outline:3px solid var(--accent);outline-offset:2px}
+.list{display:grid;gap:4px}
+.row{display:flex;align-items:center;gap:14px;padding:8px 0}
+.row .cv{width:46px;height:46px;border-radius:8px;font-size:.95rem}
+.row .n{width:20px;color:var(--soft);font-size:.85rem;text-align:center}
+.row b{display:block;font-weight:600;font-size:.98rem}.row small{color:var(--soft)}
+.row.on{background:var(--tile);border-radius:12px;padding-left:8px;margin:0 -8px}
+.row time{margin-left:auto;color:var(--soft);font-size:.82rem;white-space:nowrap}
+.menu{background:var(--tile);border-radius:16px;padding:4px 0;margin-bottom:14px}
+.menu a,.menu button{display:flex;width:100%;align-items:center;gap:16px;padding:15px 16px;font:inherit;color:var(--ink);background:none;border:0;cursor:pointer;text-align:left}
+.menu a::after,.menu button::after{content:"›";margin-left:auto;color:var(--soft);font-size:1.4rem}
+.circles{display:flex;flex-wrap:wrap;gap:16px 12px}
+.circ{flex:none;width:calc(25% - 9px);text-align:center;font-size:.8rem;overflow-wrap:anywhere}
+.circ .cv{width:100%;aspect-ratio:1;border-radius:50%;font-size:1.3rem;margin-bottom:6px}
+.pre{white-space:pre-line;color:var(--ink);font-size:1rem;line-height:1.6}
+.search{width:100%;font:inherit;color:var(--ink);background:var(--tile);border:1px solid var(--edge);border-radius:999px;padding:12px 18px;margin-bottom:10px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid button{font:inherit;color:var(--ink);background:none;border:0;padding:0;text-align:left;cursor:pointer}
+.grid .cv{width:100%;aspect-ratio:1;border-radius:12px;font-size:2rem;margin-bottom:6px}
+.empty{color:var(--soft);padding:22px 0;text-align:center}
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:0 12px calc(env(safe-area-inset-bottom,0px) + 10px);display:grid;gap:8px;max-width:680px;margin:0 auto}
+.mini,.nav{background:var(--glass);border:1px solid var(--edge);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.mini{display:flex;align-items:center;gap:12px;border-radius:18px;padding:8px 14px 8px 8px}
+.mini .cv{width:40px;height:40px;border-radius:8px;font-size:.85rem}
+.mini .mt{min-width:0;flex:1}.mini b,.mini small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mini small{color:var(--soft);font-size:.8rem}
+.mini .mr{font-size:.8rem;font-weight:700;background:var(--ink);color:var(--bg);border-radius:999px;padding:7px 14px;white-space:nowrap}
+.nav{display:flex;border-radius:999px;padding:6px}
+.nav a{flex:1;display:grid;justify-items:center;gap:2px;font-size:.7rem;color:var(--soft);padding:8px 0;border-radius:999px}
+.nav a[aria-current="page"]{background:var(--tile);color:var(--ink);font-weight:700}
+dialog{border:0;padding:0;color:var(--ink);background:var(--bg);width:100%;max-width:640px;max-height:92vh;border-radius:22px 22px 0 0;margin:auto auto 0}
+dialog::backdrop{background:rgba(0,0,0,.7)}
+.ed{padding:16px 18px calc(env(safe-area-inset-bottom,0px) + 24px)}
+.ed .top{display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:var(--bg);padding:2px 0 10px}
+.ed .top h1{margin:0;font-size:1.3rem}
+.btn{font:inherit;font-weight:600;color:var(--bg);background:var(--ink);border:0;border-radius:999px;padding:10px 18px;cursor:pointer}
+.btn.ghost{background:var(--chip);color:var(--ink)}
+details{background:var(--tile);border-radius:14px;margin-bottom:10px;padding:0 14px}
+summary{padding:14px 0;font-weight:700;cursor:pointer}
+details label{display:block;font-size:.8rem;color:var(--soft);margin:8px 0}
+details input,details textarea{display:block;width:100%;font:inherit;font-size:.92rem;color:var(--ink);background:var(--bg);border:1px solid var(--edge);border-radius:10px;padding:10px 12px;margin-top:4px}
+.hint{color:var(--soft);font-size:.8rem;margin:0 0 6px}
+.alb{display:flex;gap:10px;align-items:center;margin:8px 0}.alb .cv{width:44px;height:44px;border-radius:8px;font-size:.8rem}.alb input{margin:0}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 14px}
+@media (prefers-reduced-motion:no-preference){.view.on{animation:in .25s ease-out}@keyframes in{from{opacity:0;transform:translateY(6px)}}}
+</style>
+</head>
+<body>
+<header><a id="back" href="#lainnya" hidden aria-label="Kembali">‹</a><span id="ttl">Beranda</span></header>
+<main>
+  <section class="view" id="v-beranda">
+    <h1 id="greet"></h1>
+    <div class="tiles" id="tiles"></div>
+    <div class="streak"><div class="ring" id="ring"><span id="ringN"></span></div><div style="flex:1"><b id="stT"></b><small class="sub" id="stS"></small><div class="bar"><i id="stBar"></i></div></div></div>
+    <div class="chips" id="chips" role="group" aria-label="Pilih hari"></div>
+    <h2 id="homeH">Jadwal</h2><div class="rail" id="homeRail"></div>
+    <div id="homeAlbum"></div>
+  </section>
+
+  <section class="view" id="v-jadwal"><h1>Jadwal pelajaran</h1><div id="jadwalList"></div></section>
+  <section class="view" id="v-anggota"><h1>Anggota kelas</h1>
+    <input class="search" id="cari" type="search" placeholder="Cari nama teman…" aria-label="Cari anggota" autocomplete="off">
+    <p class="sub" id="jml"></p><div class="list" id="anggotaList"></div></section>
+  <section class="view" id="v-album"><h1>Album</h1><div class="grid" id="albumGrid"></div></section>
+  <section class="view" id="v-lainnya"><h1>Kamu</h1>
+    <div class="menu" id="menu"></div>
+    <div class="menu"><button type="button" id="openEd"><svg class="i" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16zM13 7l4 4"/></svg>Ubah isi website</button>
+    <button type="button" id="tema"><svg class="i" viewBox="0 0 24 24"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10z"/></svg>Ganti tema terang/gelap</button></div>
+  </section>
+  <section class="view" id="v-tentang"><h1 id="tNama"></h1><p class="sub" id="tSek"></p><div class="tiles" style="margin:14px 0" id="tInfo"></div><p class="pre" id="tTeks"></p></section>
+  <section class="view" id="v-struktur"><h1>Struktur organisasi</h1><div class="list" id="strukList"></div></section>
+  <section class="view" id="v-piket"><h1>Piket kelas</h1><div id="piketList"></div></section>
+</main>
+
+<div class="dock">
+  <a class="mini" id="mini" href="#jadwal"><span class="cv" id="miniCv"></span><span class="mt"><b id="miniT"></b><small id="miniS"></small></span><span class="mr" id="miniR"></span></a>
+  <nav class="nav" id="nav" aria-label="Menu utama"></nav>
+</div>
+
+<dialog id="viewer"><div class="ed"><div class="top"><h1 id="vT"></h1><button class="btn" type="button" data-close>Tutup</button></div><div class="grid" style="grid-template-columns:1fr"><div class="cv" id="vImg" style="aspect-ratio:auto;min-height:260px;border-radius:14px"></div></div></div></dialog>
+<dialog id="editor"><div class="ed"><div class="top"><h1>Ubah isi website</h1><button class="btn" type="button" data-close>Selesai</button></div><p class="hint">Perubahan tersimpan otomatis di perangkat ini.</p><div id="edBody"></div></div></dialog>
+
+<script>
+/* ============ DATA AWAL (bisa diubah lewat menu “Ubah isi website”) ============ */
+const HARI=["Senin","Selasa","Rabu","Kamis","Jumat"];
+const DEFAULT={
+  nama:"X RPL", sekolah:"SMKN 7 Kota Serang", wali:"Ii Faidhotuniam Dahlan", ketua:"Darvesh Faizullah", jumlah:"36",
+  slogan:"Satu kelas, satu cerita, banyak kenangan.",
+  tentang:"X RPL adalah jurusan yang berfokus pada rekayasa, pengembangan, dan maintenance perangkat lunak seperti web, apk, dan lain-lain.\n\n“satu titik, dua koma. salah titik, salah semua”",
+  struktur:"Wali Kelas | Ii Faidhotuniam Dahlan\nKetua Kelas | Darvesh Faizullah\nWakil Ketua | (isi nama)\nSekretaris | (isi nama)\nBendahara | (isi nama)",
+  anggota:"Abdul Fikri\nAbie Andrianto\nAfrida Nuraeni\nAhmad Ainul Yakin\nAhmad Fauzi\nAida Takziah\nAlfin Alfiansyah\nAtika Mustagfiroh\nDarvesh Faizullah | Ketua kelas\nFusilat\nGagah Nicku Arfie\nHabibul Fikri Al-zikri\nHasbi\nKolisoh\nHumaira Batrisyia Khonsa.m.\nIbnu Hasan Ramadhan\nIchwanul Kholaif\nIlham Febriansyah\nJaffan Ahmad Azfar\nKhaerul Afandi\nKhoirul Rizki\nM.Izam Maulana\nM.Fauzan Mubarok\nM.Hakim\nM.Daffa\nM.Fadillah\nM.Irawan\nM.Rafa Al-Fawazz\nNatasha Praditha\nNaufal Ibnu\nPrameshwara Putra Rahardjo\nQianu Afrizkillah\nRizki Yanuar\nSalvah Riyani\nSiti Harumi\nTio Gustiawan",
+  j_Senin:"07:10-07:50 | Upacara\n07:50-09:10 | Koding Kecerdasan Artifisial\n09:10-09:50 | TKJ & Pemrograman Terstruktur\n09:50-10:10 | Istirahat\n10:10-12:10 | TKJ & Pemrograman Terstruktur\n12:10-13:10 | Istirahat\n13:10-15:10 | Pemrograman Berorientasi Objek",
+  j_Selasa:"07:10-07:50 | Literasi\n07:50-09:50 | K3LH & Pengembangan Dunia Kerja RPL\n09:50-10:10 | Istirahat\n10:10-12:10 | Proyek Ilmu Pengetahuan Alam & Sosial\n12:10-13:10 | Istirahat\n13:10-14:30 | TKJ & Pemrograman Terstruktur\n14:30-15:10 | Muatan Lokal",
+  j_Rabu:"07:10-07:50 | Literasi\n07:50-09:50 | Pendidikan Jasmani & Rohani\n09:50-10:10 | Istirahat\n10:10-12:10 | Informatika\n12:10-13:10 | Istirahat\n13:10-15:10 | Pendidikan Agama Islam dan Budi Pekerti",
+  j_Kamis:"07:10-07:50 | Apel Jurusan\n07:50-09:10 | Sejarah\n09:10-09:50 | Proyek Ilmu Pengetahuan Alam & Sosial\n09:50-10:10 | Istirahat\n10:10-10:50 | Proyek Ilmu Pengetahuan Alam & Sosial\n10:50-12:10 | Pendidikan Pancasila\n12:10-13:10 | Istirahat\n13:10-15:10 | Matematika",
+  j_Jumat:"07:10-08:30 | Jum’at Edukasi\n08:30-08:50 | Istirahat\n08:50-10:35 | Bahasa Inggris\n10:35-11:45 | Bahasa Indonesia\n11:45-13:00 | Istirahat\n13:00-13:35 | Bahasa Indonesia\n13:35-14:45 | Seni dan Budaya",
+  p_Senin:"Ibnu, Pramesh, Gagah, Salfah, Malaika, Aida, Fikri, Ahmad", p_Selasa:"Ilham, Padil, Qianu, Aeni, Holisoh, Fauzi, Fauzan", p_Rabu:"Hakim, Upus, Alfian, Habibul, Arum, Afandi, Rizki Y",
+  p_Kamis:"Nopal, Irawan, Iwan, Atika, Natasha, Abie, Daffa", p_Jumat:"K. Rizki, Tio, Izam, Jafan, Darvesh, Rafa, Hasbi",
+  album:[]
+};
+/* ================================================================================ */
+const KEY="kelas-kita-data-v2";
+let D={...DEFAULT};
+try{Object.assign(D,JSON.parse(localStorage.getItem(KEY)||"{}"))}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}};
+
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const lines=s=>String(s||"").split("\n").map(x=>x.trim()).filter(Boolean);
+const pair=l=>{const i=l.indexOf("|");return i<0?[l,""]:[l.slice(0,i).trim(),l.slice(i+1).trim()]};
+const IC={home:"M3 11l9-8 9 8v10h-6v-6H9v6H3z",cal:"M4 6h16v14H4zM4 10h16M8 3v4M16 3v4",users:"M15 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM4 20c0-4 3.5-6 8-6s8 2 8 6",img:"M3 5h18v14H3zM3 16l5-5 4 4 3-3 6 6",more:"M5 12h.01M12 12h.01M19 12h.01",info:"M12 11v6M12 7.5h.01M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0",tree:"M12 3v6M12 9H5v5M12 9h7v5M3 14h4v6H3zM17 14h4v6h-4zM10 3h4v6h-4z",broom:"M14 3l-3 8M7 12l-3 9h16l-3-9z"};
+const svg=k=>`<svg class="i" viewBox="0 0 24 24"><path d="${IC[k]}"/></svg>`;
+const hue=s=>[...s].reduce((a,c)=>(a*31+c.charCodeAt(0))%360,7);
+const ini=s=>s.split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join("").toUpperCase();
+const cv=(t,src)=>src?`<img src="${esc(src)}" alt="" loading="lazy">`:esc(ini(t)||"•");
+const bg=t=>{const h=hue(t);return `background:linear-gradient(135deg,hsl(${h} 55% 42%),hsl(${(h+45)%360} 60% 24%))`};
+const cover=(t,cls="",src="")=>`<span class="cv ${cls}" style="${src?"":bg(t)}">${cv(t,src)}</span>`;
+
+const now=new Date(), idx=now.getDay()-1, weekend=idx<0||idx>4;
+const hariIni=weekend?HARI[0]:HARI[idx];
+const nowMin=()=>{const d=new Date();return d.getHours()*60+d.getMinutes()};
+const hm=(h,m)=>String(h).padStart(2,"0")+":"+m;
+function lessons(day){
+  return lines(D["j_"+day]).map(l=>{
+    const [w,t]=pair(l), m=w.match(/(\d{1,2})[:.](\d{2})\s*[-–]\s*(\d{1,2})[:.](\d{2})/);
+    return m?{s:+m[1]*60+ +m[2],e:+m[3]*60+ +m[4],w:hm(m[1],m[2])+" – "+hm(m[3],m[4]),t:t||"Pelajaran",rest:/istirahat/i.test(t)}:{s:0,e:0,w:"",t:l,rest:false};
+  });
+}
+let homeDay=hariIni;
+
+function renderHome(){
+  const h=now.getHours();
+  $("greet").textContent=h<11?"Selamat pagi":h<15?"Selamat siang":h<18?"Selamat sore":"Selamat malam";
+  $("tiles").innerHTML=PAGES.map(([id,l,ic])=>`<a class="tile" href="#${id}"><span class="cv" style="${bg(l)}">${svg(ic)}</span>${l}</a>`).join("");
+  const L=lessons(hariIni).filter(x=>!x.rest), n=nowMin(), done=weekend?0:L.filter(x=>x.e&&x.e<=n).length, p=L.length?Math.round(done/L.length*100):0;
+  $("ring").style.setProperty("--p",p+"%"); $("ringN").textContent=weekend?"–":done+"/"+L.length;
+  $("stBar").style.setProperty("--p",p+"%");
+  $("stT").textContent=weekend?"Akhir pekan":`${hariIni}: ${done} dari ${L.length} pelajaran selesai`;
+  $("stS").textContent=weekend?"Istirahat dulu, Senin kita lanjut.":D.slogan;
+  $("chips").innerHTML=HARI.map(d=>`<button type="button" class="chip" data-d="${d}" aria-pressed="${d===homeDay}">${d}</button>`).join("");
+  $("homeH").textContent="Jadwal "+homeDay;
+  const R=lessons(homeDay).filter(x=>!x.rest);
+  $("homeRail").innerHTML=R.length?R.map(x=>`<div class="card${homeDay===hariIni&&!weekend&&n>=x.s&&n<x.e?" on":""}">${cover(x.t)}<b>${esc(x.t)}</b><small>${x.w}</small></div>`).join(""):'<p class="empty">Belum ada jadwal.</p>';
+  const A=D.album.slice(-6).reverse();
+  $("homeAlbum").innerHTML=A.length?`<h2>Album terbaru</h2><div class="rail">${A.map(a=>`<a class="card" href="#album">${cover(a.t,"",a.s)}<b>${esc(a.t)}</b></a>`).join("")}</div>`:"";
+}
+function renderJadwal(){
+  const n=nowMin();
+  $("jadwalList").innerHTML=HARI.map(d=>`<h2>${d}${d===hariIni&&!weekend?' <span class="sub">· hari ini</span>':""}</h2><div class="list">${
+    lessons(d).map(x=>`<div class="row${d===hariIni&&!weekend&&n>=x.s&&n<x.e&&x.e?" on":""}">${cover(x.t)}<div><b>${esc(x.t)}</b></div><time>${x.w}</time></div>`).join("")||'<p class="empty">Belum ada jadwal.</p>'}</div>`).join("");
+}
+function renderPeople(){
+  const q=$("cari").value.trim().toLowerCase();
+  const all=lines(D.anggota).map(pair), hit=all.map((a,i)=>[a,i]).filter(([a])=>(a[0]+" "+a[1]).toLowerCase().includes(q));
+  $("anggotaList").innerHTML=hit.length?hit.map(([[n,r],i])=>`<div class="row"><span class="n">${i+1}</span>${cover(n,"")}<div><b>${esc(n)}</b>${r?`<small>${esc(r)}</small>`:""}</div></div>`).join(""):'<p class="empty">Nama tidak ditemukan.</p>';
+  $("jml").textContent=q?`${hit.length} dari ${all.length} anggota`:`${all.length} anggota · ${D.jumlah} siswa terdaftar`;
+  $("strukList").innerHTML=lines(D.struktur).map(pair).map(([j,n],i)=>`<div class="row"><span class="n">${i+1}</span>${cover(n||j)}<div><b>${esc(n||"—")}</b><small>${esc(j)}</small></div></div>`).join("")||'<p class="empty">Belum diisi.</p>';
+}
+function renderRest(){
+  $("tNama").textContent="Kelas "+D.nama; $("tSek").textContent=D.sekolah; $("tTeks").textContent=D.tentang;
+  $("tInfo").innerHTML=[["Wali kelas",D.wali],["Ketua kelas",D.ketua],["Jumlah siswa",D.jumlah],["Sekolah",D.sekolah]].map(([k,v])=>`<div class="tile" style="padding:12px 14px;display:block"><small class="sub">${k}</small><b style="display:block">${esc(v)}</b></div>`).join("");
+  $("piketList").innerHTML=HARI.map(d=>`<h2>${d}${d===hariIni&&!weekend?' <span class="sub">· hari ini</span>':""}</h2><div class="circles">${
+    String(D["p_"+d]||"").split(",").map(s=>s.trim()).filter(Boolean).map(n=>`<div class="circ">${cover(n)}${esc(n)}</div>`).join("")||'<p class="empty">Belum diisi.</p>'}</div>`).join("");
+  $("albumGrid").innerHTML=D.album.length?D.album.map((a,i)=>`<button type="button" data-a="${i}">${cover(a.t,"",a.s)}<b>${esc(a.t)}</b></button>`).join(""):'<p class="empty" style="grid-column:1/-1">Belum ada foto. Buka Kamu › Ubah isi website › Album.</p>';
+}
+function renderMini(){
+  const L=lessons(hariIni).filter(x=>!x.rest&&x.e), n=nowMin();
+  const cur=weekend?null:L.find(x=>n>=x.s&&n<x.e), nxt=weekend?L[0]:L.find(x=>x.s>n), x=cur||nxt;
+  $("miniCv").style.cssText=x?bg(x.t):bg("Kelas"); $("miniCv").innerHTML=cv(x?x.t:D.nama);
+  $("miniT").textContent=x?x.t:"Tidak ada pelajaran";
+  $("miniS").textContent=x?(cur?"Sedang berlangsung":"Berikutnya")+" · "+x.w:`Kelas ${D.nama}`;
+  $("miniR").textContent=cur?(cur.e-n)+" mnt":x?"Jadwal":"Santai";
+}
+const renderAll=()=>{renderHome();renderJadwal();renderPeople();renderRest();renderMini()};
+
+const PAGES=[["tentang","Tentang kelas","info"],["struktur","Struktur organisasi","tree"],["jadwal","Jadwal pelajaran","cal"],["piket","Piket kelas","broom"],["anggota","Anggota","users"],["album","Album","img"]];
+const TABS=[["beranda","Beranda","home"],["jadwal","Jadwal","cal"],["anggota","Anggota","users"],["album","Album","img"],["lainnya","Kamu","more"]];
+$("nav").innerHTML=TABS.map(([id,l,ic])=>`<a href="#${id}">${svg(ic)}${l}</a>`).join("");
+$("menu").innerHTML=PAGES.slice(0,4).map(([id,l,ic])=>`<a href="#${id}">${svg(ic)}${l}</a>`).join("");
+const TITLE={beranda:"Beranda",jadwal:"Jadwal",anggota:"Anggota",album:"Album",lainnya:"Kamu",tentang:"Tentang",struktur:"Struktur organisasi",piket:"Piket kelas"};
+function route(){
+  let id=location.hash.slice(1); if(!TITLE[id]) id="beranda";
+  Object.keys(TITLE).forEach(v=>$("v-"+v).classList.toggle("on",v===id));
+  const tab=["tentang","struktur","piket"].includes(id)?"lainnya":id;
+  document.querySelectorAll("#nav a").forEach(a=>a.getAttribute("href")==="#"+tab?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current"));
+  $("ttl").textContent=TITLE[id]; $("back").hidden=tab==="lainnya"&&id!=="lainnya"?false:true; scrollTo(0,0);
+}
+addEventListener("hashchange",route);
+$("chips").addEventListener("click",e=>{const b=e.target.closest("[data-d]");if(b){homeDay=b.dataset.d;renderHome()}});
+$("cari").addEventListener("input",renderPeople);
+$("tema").onclick=()=>{const r=document.documentElement,dark=getComputedStyle(r).colorScheme==="dark";r.dataset.theme=dark?"light":"dark"};
+$("albumGrid").addEventListener("click",e=>{const b=e.target.closest("[data-a]");if(!b)return;const a=D.album[b.dataset.a];$("vT").textContent=a.t;$("vImg").style.cssText=bg(a.t)+";aspect-ratio:auto;min-height:260px;border-radius:14px";$("vImg").innerHTML=a.s?`<img src="${esc(a.s)}" alt="${esc(a.t)}" style="max-height:70vh;object-fit:contain">`:esc(ini(a.t));$("viewer").showModal()});
+document.addEventListener("click",e=>{if(e.target.closest("[data-close]"))e.target.closest("dialog").close()});
+
+/* ===== Editor ===== */
+const SCHEMA=[
+ ["Umum","",[["nama","Nama kelas"],["sekolah","Sekolah"],["wali","Wali kelas"],["ketua","Ketua kelas"],["jumlah","Jumlah siswa"],["slogan","Slogan"],["tentang","Tentang kelas",1]]],
+ ["Struktur organisasi","Satu baris satu orang. Format: Jabatan | Nama",[["struktur","",1]]],
+ ["Jadwal pelajaran","Format tiap baris: 07:15-07:50 | Mata pelajaran",HARI.map(h=>["j_"+h,h,1])],
+ ["Piket kelas","Pisahkan nama dengan koma",HARI.map(h=>["p_"+h,h,1])],
+ ["Anggota","Satu baris satu siswa. Boleh tambah keterangan: Nama | Jabatan",[["anggota","",1]]]
+];
+function albumEd(){
+  $("albumEd").innerHTML=D.album.map((a,i)=>`<div class="alb">${cover(a.t,"",a.s)}<input data-t="${i}" value="${esc(a.t)}" aria-label="Judul foto"><button class="btn ghost" type="button" data-del="${i}">Hapus</button></div>`).join("")||'<p class="hint">Belum ada foto.</p>';
+}
+function openEditor(){
+  $("edBody").innerHTML=SCHEMA.map(([g,h,f])=>`<details><summary>${g}</summary>${h?`<p class="hint">${h}</p>`:""}${f.map(([k,l,a])=>`<label>${l}${a?`<textarea data-k="${k}" rows="${k.startsWith("j_")?6:5}"></textarea>`:`<input data-k="${k}">`}</label>`).join("")}</details>`).join("")+
+  `<details><summary>Album</summary><p class="hint">Tambah foto dari HP atau alamat gambar (URL).</p><div id="albumEd"></div>
+   <div class="acts"><label class="btn" style="margin:0;display:inline-block;color:var(--bg)">Pilih foto<input id="file" type="file" accept="image/*" multiple hidden></label></div>
+   <label>Atau tempel alamat gambar<input id="urlIn" placeholder="https://…"></label><div class="acts"><button class="btn ghost" id="urlAdd" type="button">Tambah dari alamat</button></div></details>
+   <details><summary>Cadangan &amp; pindah perangkat</summary><p class="hint">Salin teks ini untuk menyimpan semua isi. Tempel lagi di perangkat lain lalu tekan Terapkan.</p>
+   <textarea id="bak" rows="6"></textarea><div class="acts"><button class="btn" id="bakCopy" type="button">Salin</button><button class="btn ghost" id="bakApply" type="button">Terapkan</button><button class="btn ghost" id="reset" type="button">Kembalikan ke awal</button></div><p class="hint" id="bakMsg"></p></details>`;
+  $("edBody").querySelectorAll("[data-k]").forEach(el=>el.value=D[el.dataset.k]??"");
+  $("bak").value=JSON.stringify(D); albumEd(); $("editor").showModal();
+}
+$("openEd").onclick=openEditor;
+const ed=$("edBody");
+ed.addEventListener("input",e=>{
+  const t=e.target;
+  if(t.dataset.k){D[t.dataset.k]=t.value}else if(t.dataset.t!==undefined){D.album[t.dataset.t].t=t.value}else return;
+  save();renderAll();$("bak").value=JSON.stringify(D);
+});
+ed.addEventListener("click",async e=>{
+  const t=e.target, msg=m=>$("bakMsg").textContent=m;
+  if(t.dataset.del!==undefined){D.album.splice(t.dataset.del,1);save();albumEd();renderAll();$("bak").value=JSON.stringify(D)}
+  else if(t.id==="urlAdd"){const u=$("urlIn").value.trim();if(u){D.album.push({t:"Foto "+(D.album.length+1),s:u});$("urlIn").value="";save();albumEd();renderAll()}}
+  else if(t.id==="bakCopy"){try{await navigator.clipboard.writeText($("bak").value);msg("Tersalin.")}catch(_){$("bak").select();document.execCommand("copy");msg("Teks dipilih, salin manual jika perlu.")}}
+  else if(t.id==="bakApply"){try{D={...DEFAULT,...JSON.parse($("bak").value)};save();renderAll();openEditor();}catch(_){msg("Format tidak valid.")}}
+  else if(t.id==="reset"){if(t.dataset.sure){D={...DEFAULT,album:[]};save();renderAll();openEditor()}else{t.dataset.sure=1;t.textContent="Yakin? Ketuk lagi"}}
+});
+ed.addEventListener("change",e=>{
+  if(e.target.id!=="file")return;
+  [...e.target.files].forEach(f=>{
+    const r=new FileReader();
+    r.onload=()=>{const im=new Image();im.onload=()=>{
+      const k=Math.min(1,720/Math.max(im.width,im.height)),c=document.createElement("canvas");
+      c.width=im.width*k;c.height=im.height*k;c.getContext("2d").drawImage(im,0,0,c.width,c.height);
+      D.album.push({t:f.name.replace(/\.[^.]+$/,"").slice(0,30)||"Foto",s:c.toDataURL("image/jpeg",.72)});
+      save();albumEd();renderAll();$("bak").value=JSON.stringify(D)};im.src=r.result};
+    r.readAsDataURL(f);
+  });
+  e.target.value="";
+});
+
+renderAll();route();setInterval(renderMini,30000);
+</script>
+</body>
+</html>
